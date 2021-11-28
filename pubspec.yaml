@@ -34,6 +34,7 @@ dependencies:
   image_gallery_saver: ^1.7.1
   fluttertoast: ^8.0.8
   share_plus: ^3.0.4
+  themed: ^2.4.0
 
 dev_dependencies:
   flutter_test:

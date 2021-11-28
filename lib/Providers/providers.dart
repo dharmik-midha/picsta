@@ -21,7 +21,7 @@ class ImgProvider extends ChangeNotifier {
       _images.add(img);
     } else {
       _images.add(img);
-      print(_images.length);
+      // print(_images.length);
       index = _images.length - 1;
     }
     notifyListeners();
@@ -40,6 +40,14 @@ class ImgProvider extends ChangeNotifier {
     if (index < _images.length - 1) {
       index++;
     }
+    notifyListeners();
+  }
+
+  resetImage() {
+    for (var i = _images.length - 1; i > 0; i--) {
+      _images.removeLast();
+    }
+    index = 0;
     notifyListeners();
   }
 }

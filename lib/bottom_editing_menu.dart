@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:picsta/TuneImage.dart';
 import 'package:picsta/filter_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
@@ -91,9 +92,20 @@ class _BottomEditingMenuState extends State<BottomEditingMenu> {
     // );
   }
 
-  tuneImageFunction() {}
+  tuneImageFunction() {
+    Future.delayed(Duration(seconds: 0)).then(
+      (value) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TuneImage(),
+        ),
+      ),
+    );
+  }
 
-  resetFunction() {}
+  resetFunction() {
+    Provider.of<ImgProvider>(context, listen: false).resetImage();
+  }
 
   FeatureIcon(var name, var icon, var function) {
     return TextButton(

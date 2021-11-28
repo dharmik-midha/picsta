@@ -30,29 +30,26 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
             Expanded(
               flex: 8,
               child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: image != null
-                      ? ClipRRect(
-                          child: Image.file(
-                            image,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(50)),
-                          width: 100,
-                          height: 100,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[800],
-                          ),
+                child: image != null
+                    ? ClipRRect(
+                        child: Image.file(
+                          image,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.contain,
                         ),
-                ),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(50)),
+                        width: 100,
+                        height: 100,
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.grey[800],
+                        ),
+                      ),
                 color: Colors.black,
               ),
             ),
