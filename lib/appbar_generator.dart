@@ -19,22 +19,7 @@ class AppBarGenerator extends StatefulWidget {
 }
 
 class _AppBarGeneratorState extends State<AppBarGenerator> {
-  // _toastInfo(String info) {
-  //   Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
-  // }
-
   _saveImage() {
-    // File img = Provider.of<ImgProvider>(context, listen: false).getImage();
-    // Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    // File imgFile = new File('$appDocumentsDirectory' + 'img1' + '.png');
-    // final ByteData bytes = await rootBundle.load(img.path);
-    // final Uint8List list = bytes.buffer.asUint8List();
-    // imgFile.writeAsBytes(list);
-    // if (list != null) {
-    // }
-    // final result = await ImageGallerySaver.saveImage(img.path);
-    // print(result);
-    // _toastInfo(result.toString());
     Future.delayed(Duration(seconds: 0)).then(
       (value) => Navigator.push(
         context,
@@ -53,38 +38,51 @@ class _AppBarGeneratorState extends State<AppBarGenerator> {
         color: const Color(0xff161B22),
         child: Row(
           children: [
-            Row(
-              children: const [
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  EvaIcons.plusCircleOutline,
-                  color: Colors.white,
-                  size: 28,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  'New',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      color: Colors.white),
-                ),
-              ],
+            TextButton(
+              onPressed: () {
+                Future.delayed(Duration(seconds: 0)).then(
+                  (value) => Navigator.pop(context),
+                );
+              },
+              child: Row(
+                children: const [
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(
+                    EvaIcons.plusCircleOutline,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'New',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             const Spacer(),
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<ImgProvider>(context, listen: false)
+                        .previousImage();
+                  },
                   icon: const FaIcon(EvaIcons.arrowBackOutline),
                   color: const Color(0xffffffff),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<ImgProvider>(context, listen: false)
+                        .nextImage();
+                  },
                   icon: const FaIcon(EvaIcons.arrowForwardOutline),
                   color: const Color(0xffffffff),
                 ),
