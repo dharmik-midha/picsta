@@ -12,6 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SaveAndShare extends StatefulWidget {
   const SaveAndShare({Key? key}) : super(key: key);
@@ -27,7 +28,11 @@ class _SaveAndShareState extends State<SaveAndShare> {
     Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
   }
 
-  ShareImage() {}
+  ShareImage() async {
+    print(image.path);
+    await Share.shareFiles([image.path], text: 'Image Shared');
+  }
+
   CancelImage() {
     Future.delayed(Duration(seconds: 0)).then(
       (value) => Navigator.pop(context),
@@ -37,7 +42,7 @@ class _SaveAndShareState extends State<SaveAndShare> {
   SaveImage() async {
     RenderRepaintBoundary boundary =
         globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage();
+    ui.Image image = await boundary.toImage(pixelRatio: 2.0);
     ByteData? byteData =
         await (image.toByteData(format: ui.ImageByteFormat.png));
     print(byteData);
@@ -49,7 +54,38 @@ class _SaveAndShareState extends State<SaveAndShare> {
         _toastInfo("Please Allow Storage Permission");
       else
         _toastInfo("File Saved in Gallery");
+      Future.delayed(Duration(seconds: 0)).then(
+        (value) => Navigator.of(context).popUntil((route) => route.isFirst),
+      );
     }
+  }
+
+  FeatureIcon(var name, var icon, var function) {
+    return TextButton(
+      onPressed: () {
+        function();
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Icon(
+              icon,
+              color: const Color(0xffffffff),
+              size: 25,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            name,
+            style: const TextStyle(
+                color: Color(0xffffffff), fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -91,36 +127,9 @@ class _SaveAndShareState extends State<SaveAndShare> {
                   children: [
                     Row(
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            SaveImage();
-                          },
-                          icon: Icon(
-                            EvaIcons.checkmark,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        IconButton(
-                          onPressed: () {
-                            CancelImage();
-                          },
-                          icon: Icon(
-                            EvaIcons.close,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                        SizedBox(width: 25),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            EvaIcons.share,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
+                        FeatureIcon('Save', Icons.check, SaveImage),
+                        const SizedBox(width: 55),
+                        FeatureIcon('Share', EvaIcons.shareOutline, ShareImage),
                       ],
                     ),
                   ],

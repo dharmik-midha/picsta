@@ -43,6 +43,7 @@ class _BottomEditingMenuState extends State<BottomEditingMenu> {
 
   Future<Null> cropFunction() async {
     File? cropFile = await ImageCropper.cropImage(
+      compressQuality: 100,
       sourcePath: image.path,
       aspectRatioPresets: Platform.isAndroid
           ? [

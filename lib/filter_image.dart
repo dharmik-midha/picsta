@@ -52,7 +52,7 @@ class _FilterImageState extends State<FilterImage> {
     var rng = new Random();
     final RenderRepaintBoundary repaintBoundary =
         globalKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    ui.Image boxImage = await repaintBoundary.toImage(pixelRatio: 1);
+    ui.Image boxImage = await repaintBoundary.toImage(pixelRatio: 2.0);
     final ByteData? byteData =
         await boxImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8list = byteData!.buffer.asUint8List();
