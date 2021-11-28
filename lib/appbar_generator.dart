@@ -1,15 +1,50 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:flutter/rendering.dart';
+import 'package:picsta/save_and_share.dart';
+import 'package:provider/provider.dart';
+import 'Providers/providers.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:ui' as ui;
+import 'package:path_provider/path_provider.dart';
 
 class AppBarGenerator extends StatefulWidget {
-  const AppBarGenerator({Key? key}) : super(key: key);
-
   @override
   _AppBarGeneratorState createState() => _AppBarGeneratorState();
 }
 
 class _AppBarGeneratorState extends State<AppBarGenerator> {
+  // _toastInfo(String info) {
+  //   Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
+  // }
+
+  _saveImage() {
+    // File img = Provider.of<ImgProvider>(context, listen: false).getImage();
+    // Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    // File imgFile = new File('$appDocumentsDirectory' + 'img1' + '.png');
+    // final ByteData bytes = await rootBundle.load(img.path);
+    // final Uint8List list = bytes.buffer.asUint8List();
+    // imgFile.writeAsBytes(list);
+    // if (list != null) {
+    // }
+    // final result = await ImageGallerySaver.saveImage(img.path);
+    // print(result);
+    // _toastInfo(result.toString());
+    Future.delayed(Duration(seconds: 0)).then(
+      (value) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SaveAndShare(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -57,7 +92,9 @@ class _AppBarGeneratorState extends State<AppBarGenerator> {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _saveImage();
+              },
               icon: const Icon(
                 EvaIcons.saveOutline,
                 size: 30,

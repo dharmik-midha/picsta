@@ -26,7 +26,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const AppBarGenerator(),
+            AppBarGenerator(),
             Expanded(
               flex: 8,
               child: Container(
