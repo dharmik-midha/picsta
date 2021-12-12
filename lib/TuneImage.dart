@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:themed/themed.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class TuneImage extends StatefulWidget {
   const TuneImage({Key? key}) : super(key: key);
@@ -72,11 +73,15 @@ class _TuneImageState extends State<TuneImage> {
                     hue: hue,
                     brightness: brightness,
                     saturation: saturation,
-                    child: Image.file(
-                      image,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.contain,
+                    child: PinchZoom(
+                      resetDuration: const Duration(milliseconds: 100),
+                      maxScale: 2.5,
+                      child: Image.file(
+                        image,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),

@@ -7,7 +7,6 @@ import 'package:picsta/TuneImage.dart';
 import 'package:picsta/filter_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
-
 import 'Providers/providers.dart';
 
 bool toggle = false;
@@ -149,8 +148,8 @@ class _BottomEditingMenuState extends State<BottomEditingMenu> {
                 const SizedBox(width: 5),
                 FeatureIcon('Crop', EvaIcons.cropOutline, cropFunction),
                 const SizedBox(width: 5),
-                FeatureIcon('Effects', EvaIcons.sunOutline, effectsFunction),
-                const SizedBox(width: 5),
+                // FeatureIcon('Effects', EvaIcons.sunOutline, effectsFunction),
+                // const SizedBox(width: 5),
                 FeatureIcon(
                     'Color', EvaIcons.colorPaletteOutline, colorFunction),
                 const SizedBox(width: 5),

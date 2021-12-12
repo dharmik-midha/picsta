@@ -5,6 +5,7 @@ import 'package:picsta/appbar_generator.dart';
 import 'package:picsta/bottom_editing_menu.dart';
 import 'package:picsta/Providers/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class EditPhotoScreen extends StatefulWidget {
   EditPhotoScreen();
@@ -31,7 +32,9 @@ class _EditPhotoScreenState extends State<EditPhotoScreen> {
               flex: 8,
               child: Container(
                 child: image != null
-                    ? ClipRRect(
+                    ? PinchZoom(
+                        resetDuration: const Duration(milliseconds: 100),
+                        maxScale: 2.5,
                         child: Image.file(
                           image,
                           width: double.infinity,

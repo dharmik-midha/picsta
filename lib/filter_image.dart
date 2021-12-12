@@ -10,6 +10,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class FilterImage extends StatefulWidget {
   const FilterImage({Key? key}) : super(key: key);
@@ -120,10 +121,14 @@ class _FilterImageState extends State<FilterImage> {
                   key: globalKey,
                   child: ColorFiltered(
                     colorFilter: ColorFilter.matrix(filters[imgIndex]),
-                    child: Image.file(
-                      image,
-                      width: size.width,
-                      fit: BoxFit.contain,
+                    child: PinchZoom(
+                      resetDuration: const Duration(milliseconds: 100),
+                      maxScale: 2.5,
+                      child: Image.file(
+                        image,
+                        width: size.width,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),

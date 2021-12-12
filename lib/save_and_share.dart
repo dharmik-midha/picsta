@@ -30,7 +30,7 @@ class _SaveAndShareState extends State<SaveAndShare> {
 
   ShareImage() async {
     print(image.path);
-    await Share.shareFiles([image.path], text: 'Image Shared');
+    await Share.shareFiles([image.path], text: '');
   }
 
   CancelImage() {
@@ -45,11 +45,11 @@ class _SaveAndShareState extends State<SaveAndShare> {
     ui.Image image = await boundary.toImage(pixelRatio: 2.0);
     ByteData? byteData =
         await (image.toByteData(format: ui.ImageByteFormat.png));
-    print(byteData);
     if (byteData != null) {
       final result =
           await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
       print(result);
+
       if (result.toString().contains('denied'))
         _toastInfo("Please Allow Storage Permission");
       else
@@ -101,19 +101,16 @@ class _SaveAndShareState extends State<SaveAndShare> {
           Expanded(
             flex: 8,
             child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RepaintBoundary(
-                    key: globalKey,
-                    child: ClipRRect(
-                      child: Image.file(
-                        image,
-                        width: double.infinity,
-                        height: double.infinity,
-                        fit: BoxFit.contain,
-                      ),
-                    )),
-              ),
+              child: RepaintBoundary(
+                  key: globalKey,
+                  child: ClipRRect(
+                    child: Image.file(
+                      image,
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.contain,
+                    ),
+                  )),
               color: Colors.black,
             ),
           ),
