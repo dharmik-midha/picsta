@@ -13,6 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
+import 'package:screenshot/screenshot.dart';
 
 class SaveAndShare extends StatefulWidget {
   const SaveAndShare({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class SaveAndShare extends StatefulWidget {
 }
 
 class _SaveAndShareState extends State<SaveAndShare> {
+  ScreenshotController screenshotController = ScreenshotController();
   final GlobalKey globalKey = GlobalKey();
   late File image;
   _toastInfo(String info) {
@@ -39,25 +42,46 @@ class _SaveAndShareState extends State<SaveAndShare> {
     );
   }
 
-  SaveImage() async {
-    RenderRepaintBoundary boundary =
-        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage(pixelRatio: 2.0);
-    ByteData? byteData =
-        await (image.toByteData(format: ui.ImageByteFormat.png));
-    if (byteData != null) {
-      final result =
-          await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
-      print(result);
+  //
+  // SaveImage() async {
+  //   RenderRepaintBoundary boundary =
+  //       globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  //   ui.Image image = await boundary.toImage(pixelRatio: 2.0);
+  //   ByteData? byteData =
+  //       await (image.toByteData(format: ui.ImageByteFormat.png));
+  //   if (byteData != null) {
+  //     final result =
+  //         await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+  //     print(result);
+  //
+  //
+  //   }
+  // }
 
-      if (result.toString().contains('denied'))
-        _toastInfo("Please Allow Storage Permission");
-      else
-        _toastInfo("File Saved in Gallery");
-      Future.delayed(Duration(seconds: 0)).then(
-        (value) => Navigator.of(context).popUntil((route) => route.isFirst),
-      );
+  Future<String> saveImg(Uint8List bytes) async {
+    final time = DateTime.now()
+        .toIso8601String()
+        .replaceAll('.', '-')
+        .replaceAll(':', '-');
+    final name = 'Picsta_$time';
+    final result = await ImageGallerySaver.saveImage(bytes, name: name);
+    if (result.toString().contains('denied'))
+      _toastInfo("Please Allow Storage Permission");
+    else
+      _toastInfo("Image Saved in Gallery");
+    Future.delayed(Duration(seconds: 0)).then(
+      (value) => Navigator.of(context).popUntil((route) => route.isFirst),
+    );
+    return result['filePath'];
+  }
+
+  SaveImage() async {
+    final image = await screenshotController.capture();
+    if (image == null) {
+      return;
     }
+    await saveImg(image);
+    print(image);
   }
 
   FeatureIcon(var name, var icon, var function) {
@@ -101,16 +125,19 @@ class _SaveAndShareState extends State<SaveAndShare> {
           Expanded(
             flex: 8,
             child: Container(
-              child: RepaintBoundary(
-                  key: globalKey,
-                  child: ClipRRect(
-                    child: Image.file(
-                      image,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
-                  )),
+              child: PinchZoom(
+                resetDuration: const Duration(milliseconds: 100),
+                maxScale: 2.5,
+                child: Screenshot(
+                  controller: screenshotController,
+                  child: Image.file(
+                    image,
+                    // width: double.infinity,
+                    // height: double.infinity,
+                    // fit: BoxFit.contain,
+                  ),
+                ),
+              ),
               color: Colors.black,
             ),
           ),
